@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travel Never Alone</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0b1b14;
+    color: white;
+}
+
+/* HERO */
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+.layer {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    top: 0;
+    left: 0;
+    background-size: cover;
+    background-position: center;
+}
+
+.layer.bg1 {
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.7)),
+    url('https://images.unsplash.com/photo-1501785888041-af3ef285b470');
+}
+
+.layer.bg2 {
+    background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee');
+    opacity: 0.5;
+}
+
+.layer.bg3 {
+    background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e');
+    opacity: 0.4;
+}
+
+/* NAV */
+.nav {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 15px;
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+}
+
+.nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* HERO TEXT */
+.hero-content {
+    animation: fadeSlide 1.5s ease forwards;
+}
+
+@keyframes fadeSlide {
+    from {opacity:0; transform: translateY(40px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+.hero h1 {
+    font-size: 54px;
+}
+
+/* BUTTONS */
+.btn {
+    margin-top: 10px;
+    padding: 10px 16px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #154103, #0c6627);
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #1b3d5a, #2c6ea3);
+}
+
+/* SECTIONS */
+.section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.section-dark {
+    background: linear-gradient(180deg, #0f2a1f, #0b1b14);
+}
+
+/* CATEGORY */
+.category {
+    margin-bottom: 60px;
+}
+
+.category h3 {
+    margin-bottom: 20px;
+    color: #9fe6b8;
+}
+
+/* GRID 3 */
+.tours {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+/* CARD */
+.tour-card {
+    background: white;
+    color: black;
+    border-radius: 16px;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s ease;
+}
+
+.tour-card.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tour-card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.tour-card .content {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* CONTACTS */
+.contacts {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.contacts-left {
+    flex: 1;
+    min-width: 250px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.contacts-right {
+    flex: 1;
+    min-width: 250px;
+    text-align: right;
+}
+
+.contacts-bottom {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    color: black;
+    padding: 20px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+}
+
+.close {
+    float: right;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* RESPONSIVE */
+@media (max-width:1024px){
+    .tours {grid-template-columns: repeat(2,1fr);}
+}
+
+@media (max-width:768px){
+    .hero h1 {font-size:32px;}
+    .tours {grid-template-columns: 1fr;}
+    .contacts {flex-direction: column; text-align:center;}
+    .contacts-right {text-align:center;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="hero">
+    <div class="layer bg1"></div>
+    <div class="layer bg2"></div>
+    <div class="layer bg3"></div>
+
+    <div class="nav">
+        <a onclick="scrollToSection('tours')">Направления</a>
+        <a onclick="scrollToSection('contacts')">Контакты</a>
+    </div>
+
+    <div class="hero-content">
+        <h1>ПУТЕШЕСТВУЙ<br>НЕ ОДИН</h1>
+        <button class="btn" onclick="scrollToSection('tours')">Начать</button>
+    </div>
+</div>
+
+<div class="section section-dark" id="tours">
+<h2>Направления</h2>
+
+<div id="toursContainer"></div>
+
+</div>
+
+<div class="section" id="contacts">
+<h2>Контакты</h2>
+
+<div class="contacts">
+<div class="contacts-left">
+TNA – проводник в путешествия
+</div>
+
+<div class="contacts-right">
++7 495 151 69 80<br>
+info@travelneveralone.com
+</div>
+</div>
+
+<div class="contacts-bottom">
+ИП Козикова Анна Петровна
+</div>
+
+</div>
+
+<!-- MODALS -->
+<div class="modal" id="infoModal">
+<div class="modal-content">
+<span class="close" onclick="closeModal()">&times;</span>
+<div id="modalText"></div>
+</div>
+</div>
+
+<div class="modal" id="bookingModal">
+<div class="modal-content">
+<span class="close" onclick="closeBooking()">&times;</span>
+
+<h3 id="bookingTitle"></h3>
+
+<input type="text" placeholder="Имя"><br><br>
+<input type="tel" placeholder="Телефон"><br><br>
+<input type="email" placeholder="Email"><br><br>
+
+<button class="btn">Отправить</button>
+
+</div>
+</div>
+
+<script>
+
+/* DATA + IMAGES */
+const data = {
+"Однодневные":[
+{name:"Бадукские озера",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470"},
+{name:"Терье озеро",img:"https://images.unsplash.com/photo-1507525428034-b723cf961d3e"},
+{name:"Алибекский водопад",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"},
+{name:"Чучхурские водопады",img:"https://images.unsplash.com/photo-1472214103451-9374bd1c798e"},
+{name:"Ущелье Птыш",img:"https://images.unsplash.com/photo-1469474968028-56623f02e42e"},
+{name:"Суфурджинские водопады",img:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21"},
+{name:"Оз.Эпчик",img:"https://images.unsplash.com/photo-1491553895911-0055eca6402d"},
+{name:"Джамагатское ущелье",img:"https://images.unsplash.com/photo-1482192596544-9eb780fc7f66"},
+{name:"Водопад Шумка и Тебердинский заповедник",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470"},
+{name:"Оз. Туманлы-кель и Гоначхирское ущелье",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470"},
+{name:"Кругозор Семенов-Баши",img:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e"},
+{name:"Гора Лысая",img:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4"}
+],
+"Джип туры":[
+{name:"Оз. Шобойдак",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"},
+{name:"Сенстинский храм и плато Буруш-серты",img:"https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1"},
+{name:"Шаонинский храм и гора кольцо",img:"https://images.unsplash.com/photo-1500375592092-40eb2168fd21"},
+{name:"Маринский водопад и сырные пещеры",img:"https://images.unsplash.com/photo-1469474968028-56623f02e42e"},
+{name:"Перевал Гумбаши",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470"},
+{name:"Путешествие на Джилы-су",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"},
+{name:"Ущелье Узун-кол",img:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e"},
+{name:"Махар",img:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b"}
+],
+"Походы с палатками":[
+{name:"Озера Домбая 2 дня",img:"https://images.unsplash.com/photo-1501785888041-af3ef285b470"},
+{name:"Озера Домбая 3 дня",img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"},
+{name:"Путешествие по окрестностям Теберды 2 дня",img:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e"},
+{name:"Путешествие по окрестностям Теберды 3 дня",img:"https://images.unsplash.com/photo-1482192596544-9eb780fc7f66"},
+{name:"Путешествие по окрестностям Теберды 4 дня",img:"https://images.unsplash.com/photo-1469474968028-56623f02e42e"}
+]
+};
+
+/* RENDER */
+const container = document.getElementById("toursContainer");
+
+Object.keys(data).forEach(category => {
+
+    const block = document.createElement("div");
+    block.className = "category";
+
+    const title = document.createElement("h3");
+    title.innerText = category;
+    block.appendChild(title);
+
+    const grid = document.createElement("div");
+    grid.className = "tours";
+
+    data[category].forEach(tour => {
+
+        const card = document.createElement("div");
+        card.className = "tour-card";
+
+        card.innerHTML = `
+            <img src="${tour.img}">
+            <div class="content">
+                <h4>${tour.name}</h4>
+                <button class="btn btn-secondary" onclick="openModal('${tour.name}')">Подробнее</button>
+                <button class="btn" onclick="openBooking('${tour.name}')">Бронирование</button>
+            </div>
+        `;
+
+        grid.appendChild(card);
+    });
+
+    block.appendChild(grid);
+    container.appendChild(block);
+});
+
+/* MODAL */
+function openModal(name){
+    document.getElementById("modalText").innerText = "Описание тура: " + name;
+    document.getElementById("infoModal").style.display = "flex";
+}
+
+function closeModal(){
+    document.getElementById("infoModal").style.display = "none";
+}
+
+function openBooking(name){
+    document.getElementById("bookingTitle").innerText = "Бронирование: " + name;
+    document.getElementById("bookingModal").style.display = "flex";
+}
+
+function closeBooking(){
+    document.getElementById("bookingModal").style.display = "none";
+}
+
+function scrollToSection(id){
+    document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+/* PARALLAX */
+window.addEventListener('scroll', function() {
+    const y = window.scrollY;
+    document.querySelector('.bg1').style.transform = `translateY(${y * 0.2}px)`;
+    document.querySelector('.bg2').style.transform = `translateY(${y * 0.4}px)`;
+    document.querySelector('.bg3').style.transform = `translateY(${y * 0.6}px)`;
+});
+
+/* SCROLL REVEAL */
+const observer = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){
+            entry.target.classList.add("show");
+        }
+    });
+});
+
+setTimeout(()=>{
+    document.querySelectorAll(".tour-card").forEach(el=>{
+        observer.observe(el);
+    });
+},500);
+
+</script>
+
+</body>
+</html>
